@@ -1,4 +1,9 @@
+const myScore = document.querySelector(".myScore");
+const bScore = document.querySelector(".bScore");
+const msg = document.querySelector("#msg");
 const board = document.querySelector("#board");
+const restartBtn = document.querySelector(".restart");
+const newBtn = document.querySelector(".new-game");
 let xTurn = true;
 
 const winPatterns = [
@@ -28,16 +33,26 @@ const items = document.querySelectorAll(".item");
 
 items.forEach((item) => {
   item.addEventListener("click", (e) => {
-  if (e.target.dataset.index && xTurn) {
+  if (xTurn) {
     item.innerText = 'X';
     xTurn = false;
+    msg.textContent = 'O Turn';
   } else {
     item.innerText = 'O';
     xTurn = true;
+    msg.textContent = 'X Turn';
   }
   item.disabled = true;
-   console.log("You clicked :",e.target.dataset.index);
+  restartBtn.addEventListner("click", (e) => {
+
+  })
+
+   console.log("You clicked :", e.target.dataset.index);
  })
+})
+
+newBtn.addEventListener("click", () => {
+  location.reload();
 })
 
 

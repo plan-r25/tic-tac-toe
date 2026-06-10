@@ -7,7 +7,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="intro">
+    <h1>Tic Tac Toe Game</h1>
+  </header>
+  <main>
+  <div class="score-board">
+    <div class="teamA">
+        Your Score:  <span class="myScore">0</span>
+     </div>
+     <div class="teamB">
+        Other Score:  <span class="bScore">0</span>
+     </div>
+  </div>
+  <p id="msg">Start game or select player!</p>
   <div id="board"></div>
+  <div class="game-stng">
+    <div class="gSetting">
+     <button class="restart">Restart Game</button>
+     <button class="new-game">New Game</button>
+    </div>
+    <div class="choice">
+      <button class="x">X <span>"Start first"</span></button>
+      <button class="o">O <span>"Play after X"</span></button>
+    </div>
+  </div>
+  </main>
 
   <script src="script.js"></script>
 </body>
