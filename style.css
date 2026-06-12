@@ -45,18 +45,30 @@ main {
 }
 
 
-.choice button {
-  cursor: pointer;
-  font-size: 1.1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 0 0.5rem;
-  padding: 3px 15px;;
 
+.choice button {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(14, 14, 14, 0.25);
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .choice button span {
   font-size: 0.6rem;
+}
+
+.choice .x:hover {
+  box-shadow: 2px 2px 4px #ccc; 
+  transform: translate(-8px, -5px);
+}
+
+.choice .o:hover {
+  box-shadow: -2px 2px 4px #ccc;
+  transform: translate(8px, -5px);
 }
 
 #board {

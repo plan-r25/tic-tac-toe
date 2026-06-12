@@ -71,7 +71,8 @@ function playGame() {
        xTurn = false;
        msg.textContent = 'O Turn';
       } else {
-       item.innerText = 'O';
+        computerMove('O');
+      //  item.innerText = 'O';
        player.placeMark(e.target.dataset.index, 'O');
        xTurn = true;
        msg.textContent = 'X Turn';
@@ -80,22 +81,38 @@ function playGame() {
        console.log("You clicked :", e.target.dataset.index);
      })
  });
-}
 
+}
 playGame();
 
-//to refresh the page
-newBtn.addEventListener("click", () => {
-  location.reload();
-})
+
+
+
+//checking where can the bot put its mark
+function computerMove(type) {
+  const emptyBtn = Array.from(items).filter(item => item.innerText === '');
+  if(emptyBtn.length === 0) return null;
+  const randomIndex = Math.floor(Math.random() * emptyBtn.length);
+  const chooseCell = emptyBtn[randomIndex];
+  chooseCell.innerText = type;
+  console.log("computer clicked:", chooseCell);
+  return chooseCell;
+}
 
 //choose between X and O
 function playerChoice() {
   choiceBtn.forEach(button => {
     button.addEventListener("click", (e) => {
-     const choice = e.currentTarget.value;
-     console.log(player.type(choice));
-    })
+      choiceBtn.forEach(btn => { 
+        btn.disabled = true;
+      })
+     if ( e.currentTarget.value === 'O') {
+      computerMove('X');
+     } else {
+      computerMove('O')
+     };
+    });
+    restartGame(button);
   });
 }
 playerChoice();
@@ -108,8 +125,24 @@ function checkWinner() {
   for (const pattern of player.board) {
 
   }
-
 }
+
+//restart the current game only
+function restartGame(btn) {
+  restartBtn.addEventListener("click", () => {
+    items.forEach((item) => {
+      item.innerText = '';
+      item.disabled = false;
+    })
+    btn.disabled = false;
+  })
+}
+restartGame();
+
+//to refresh the page
+newBtn.addEventListener("click", () => {
+  location.reload();
+})
 
 
 
