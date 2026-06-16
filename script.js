@@ -7,6 +7,7 @@ const newBtn = document.querySelector(".new-game");
 const choiceBtn = document.querySelectorAll(".btn");
 
 let xTurn = true;
+let computerTurn = true;
 
 const winPatterns = [
   [0, 1, 2],
@@ -62,7 +63,7 @@ for (let i = 0; i < 9; i++) {
 
 const items = document.querySelectorAll(".item");
 
-function playGame() {
+function humanMode() {
  items.forEach((item) => {
    item.addEventListener("click", (e) => {
      if (xTurn) {
@@ -71,21 +72,47 @@ function playGame() {
        xTurn = false;
        msg.textContent = 'O Turn';
       } else {
-        computerMove('O');
-      //  item.innerText = 'O';
+       item.innerText = 'O';
        player.placeMark(e.target.dataset.index, 'O');
        xTurn = true;
        msg.textContent = 'X Turn';
-      }
+      } 
        item.disabled = true;
+       choiceBtn.forEach(btn => btn.disabled = true);
        console.log("You clicked :", e.target.dataset.index);
      })
  });
-
 }
-playGame();
+humanMode();
 
+function humanVsBot() {
+  let playerMark;
+  let botMark;
 
+  choiceBtn.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      choiceBtn.forEach(btn => btn.disabled = true)
+
+      if (e.currentTarget.value === 'O') {
+        playerMark = 'O';
+        botMark = 'X';
+        computerMove(botMark);
+      } else {
+        playerMark = 'X';
+        botMark = 'O';
+      }
+
+      items.forEach(item => {
+        item.addEventListener("click", () => {
+          if (item.innerText !== '') return;
+          item.innerText = playerMark;
+          computerMove(botMark);
+        })
+      })
+    })
+  })
+}
+humanVsBot();
 
 
 //checking where can the bot put its mark
@@ -100,22 +127,27 @@ function computerMove(type) {
 }
 
 //choose between X and O
-function playerChoice() {
-  choiceBtn.forEach(button => {
-    button.addEventListener("click", (e) => {
-      choiceBtn.forEach(btn => { 
-        btn.disabled = true;
-      })
-     if ( e.currentTarget.value === 'O') {
-      computerMove('X');
-     } else {
-      computerMove('O')
-     };
-    });
-    restartGame(button);
-  });
-}
-playerChoice();
+// function playerChoice() {
+//   choiceBtn.forEach(button => {
+//     button.addEventListener("click", (e) => {
+//       choiceBtn.forEach(btn => { 
+//         btn.disabled = true;
+//       })
+//       let playerMark;
+//       let computerMark;
+//      if ( e.currentTarget.value === 'O') {
+//       playerMark = 'O';
+//       computerMark = 'X';
+//       computerMove(computerMark);
+//      } else {
+//       playerMark = 'X';
+//       computerMark = 'O';
+//      };
+//     });
+//     restartGame(button);
+//   });
+// }
+// playerChoice();
 
 //check for a winner
 function checkWinner() {
