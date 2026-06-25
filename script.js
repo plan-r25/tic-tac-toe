@@ -12,14 +12,10 @@ let gameover = true;
 
 function scoreBoard() {
   let score = 0;
-
-  const xScore = () => {score++};
-  const oScore = () => {score++};
+  const Score = () => {score++};
   const getScore = () => score;
-
   return {
-    xScore,
-    oScore,
+    Score,
     getScore
   };
 }
@@ -43,23 +39,45 @@ const Gameboard = {
     [2, 4, 6],
   ],
   isGameOver() {
+    const isDraw = !this.gameboard.includes("");
+
     for(let pattern of this.winPatterns) {
       let val1 = this.gameboard[pattern[0]];
       let val2 = this.gameboard[pattern[1]];
       let val3 = this.gameboard[pattern[2]];
       if (val1 !== "" && val1 === val2 && val2 === val3) {
+        items[pattern[0]].style.background = "red";
+        items[pattern[1]].style.background = "red";
+        items[pattern[2]].style.background = "red";
         msg.textContent = `${val1} wins`;
         items.forEach(btn => btn.disabled = true);
         setTimeout(() => {
           items.forEach(btn => {
+            items[pattern[0]].style.background = "white";
+            items[pattern[1]].style.background = "white";
+            items[pattern[2]].style.background = "white";
             btn.innerText = "";
             btn.disabled = false;
         });
-          this.gameboard = ['', '', '', '', '', '', '', '', ''];
-          msg.textContent = originalText;
-          turn = true;
         }, 2000)
-        return true;
+         this.gameboard = ['', '', '', '', '', '', '', '', ''];
+         msg.textContent = originalText;
+         turn = true;
+         return true;
+      }
+      if(isDraw) {
+        msg.textContent = "It's a draw";
+        setTimeout(() => {
+          items.forEach(btn => {
+            btn.innerText = "";
+            btn.disabled = false;
+          });
+        }, 2000)
+        this.gameboard = ['', '', '', '', '', '', '', '', ''];
+        msg.textContent = originalText;
+        turn = true;
+           return true;
+
       }
     }
   },
@@ -78,7 +96,7 @@ const Gameboard = {
     chooseBtn.disabled = true;
 
     if(this.isGameOver()) {
-      oscore.oScore();
+      oscore.Score();
       botScore.textContent = oscore.getScore();
       return;
     };
@@ -86,8 +104,7 @@ const Gameboard = {
 
     turn = true;
   },
-  resartGame: (function() {
-    restartBtn.addEventListener("click", () => {
+  restartGame() {
       items.forEach(btn => {
         btn.innerText = "";
         btn.disabled = false;
@@ -95,14 +112,12 @@ const Gameboard = {
       this.gameboard = ['', '', '', '', '', '', '', '', ''];
       msg.textContent = originalText;
       turn = true;
-    })
-  })(),
-  newGame: (function() {
-    newBtn.addEventListener("click", () => {
-      location.reload();
-    })
-  })()
+  }
 };
+restartBtn.addEventListener("click", Gameboard.restartGame);
+newBtn.addEventListener("click", () =>  {
+  location.reload();
+});
 
 //for loop to create html buttons
 for (let i = 0; i < 9; i++) {
@@ -128,7 +143,7 @@ const items = document.querySelectorAll(".item");
         btn.disabled = true;
         turn = false;
         if (Gameboard.isGameOver()) {
-          xscore.xScore();
+          xscore.Score();
           myScore.textContent = xscore.getScore();
           return;
         };
