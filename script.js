@@ -8,7 +8,7 @@ const newBtn = document.querySelector(".new-game");
 
 const originalText = msg.textContent;
 let turn = true;
-let gameover = true;
+// let gameover = true;
 
 function scoreBoard() {
   let score = 0;
@@ -49,9 +49,15 @@ const Gameboard = {
         items[pattern[0]].style.background = "red";
         items[pattern[1]].style.background = "red";
         items[pattern[2]].style.background = "red";
-        msg.textContent = `${val1} wins`;
         items.forEach(btn => btn.disabled = true);
+
+        this.gameboard = ['', '', '', '', '', '', '', '', ''];
+        msg.textContent =`${val1} wins`;
+        turn = true;
+
         setTimeout(() => {
+        msg.textContent = originalText;
+
           items.forEach(btn => {
             items[pattern[0]].style.background = "white";
             items[pattern[1]].style.background = "white";
@@ -59,25 +65,22 @@ const Gameboard = {
             btn.innerText = "";
             btn.disabled = false;
         });
-        }, 2000)
-         this.gameboard = ['', '', '', '', '', '', '', '', ''];
-         msg.textContent = originalText;
-         turn = true;
+        }, 3500) 
          return true;
       }
       if(isDraw) {
+        this.gameboard = ['', '', '', '', '', '', '', '', ''];
         msg.textContent = "It's a draw";
+        turn = true;
         setTimeout(() => {
+          msg.textContent = originalText;
+
           items.forEach(btn => {
             btn.innerText = "";
             btn.disabled = false;
           });
         }, 2000)
-        this.gameboard = ['', '', '', '', '', '', '', '', ''];
-        msg.textContent = originalText;
-        turn = true;
-           return true;
-
+        return true;
       }
     }
   },
@@ -156,3 +159,5 @@ const items = document.querySelectorAll(".item");
   })
 })();
 
+// first i am going to learn the theory of minmax algorithm
+// understand recursion
