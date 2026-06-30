@@ -31,10 +31,10 @@ const Gameboard = {
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6],
+    [2, 4, 6]
   ],
   isGameOver() {
-    const isDraw = Array.from(items).include('');
+    const isDraw = !this.gameboard.includes('');
     for(let pattern of this.winPatterns) {
       const [val1, val2, val3] = pattern.map(index => items[index].innerText);
       
@@ -42,10 +42,12 @@ const Gameboard = {
         msg.textContent = `${val1} wins`;
         return true;
       }
-      if(!isDraw) {
+      if(isDraw) {
         msg.textContent = "Draw";
+        return true;
       }
     }
+    return false;
   },
   move() {
     items.forEach(btn => {
@@ -53,13 +55,14 @@ const Gameboard = {
         let index = Number(btn.dataset.index);
         if(turn) {
           btn.innerText = "X";
+          msg.textContent = "O turn";
           Gameboard.placeMark(index, "X")
           btn.disabled = true;
           turn = false;
-          Gameboard.isGameOver();
+          if(Gameboard.isGameOver()) return true;
           setTimeout(() => {
             Gameboard.computerMove()
-          }, 1500)
+          }, 1000)
         }
       });
     })
@@ -74,10 +77,14 @@ const Gameboard = {
 
     const ind = Number(ranMark.dataset.index);
     ranMark.innerText = "O";
+    msg.textContent = "X turn";
     ranMark.disabled = true;
     turn = true;
     this.placeMark(ind, "O");
-    this.isGameOver();
+    if(this.isGameOver()) {
+      items.forEach(btn => btn.disabled = true);
+      return true;
+    }
   }
 }
 
